@@ -1,7 +1,5 @@
 <template>
-  <p>KLIOJOKJOJOKJNKLOKK
-  </p>
+  <p>KLIOJOKJOJOKJNKLOKK</p>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
