@@ -1,0 +1,36 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  DEPLOY_PATH: /home/a0548906/domains/am-veronika.ru/public_html/new/
+  BUILD_SCRIPT_OUTPUT: dist/
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Development Contacts
+        uses: actions/checkout@v2
+      - name: Use Node.js 17.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 17.x
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SERVER_KEY }}
+          SOURCE: ${{ env.BUILD_SCRIPT_OUTPUT }}
+          REMOTE_HOST: ${{ secrets.DEPLOY_SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          TARGET: ${{ env.DEPLOY_PATH }}
